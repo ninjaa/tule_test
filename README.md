@@ -33,5 +33,6 @@ The output subdirectory is in gitignore so you can keep dumping files into it an
 
 ## Notes
 
-- I added an optional timezone to the Timestamp, so the values EST and UTC work fine at the end eg '10/5/12 12:31:11 UTC'. But I didn't test a range of TZ formats so beyond 3 letter codes, I'm not sure what will be accepted.
+- Does not work for Timestamps with provided timezones, simply assumes that they are all PST, even if another timezone is provided. Didn't have time to debug this in 4 hrs given.
+
 
