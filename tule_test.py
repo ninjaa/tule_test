@@ -85,5 +85,5 @@ for idx, row in enumerate(reader):
         collected_output.append(row)
         writer.writerow(row)
     except BaseException:
-        # print(BaseException)
-        pass # skip a row in which we found an exception
+        print(BaseException, file=sys.stderr) # skip a row in which we found an exception
+        continue
