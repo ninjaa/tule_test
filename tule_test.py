@@ -66,7 +66,10 @@ for idx, row in enumerate(reader):
         writer = csv.DictWriter(sys.stdout, row.keys())
         writer.writeheader()
     try:
-        new_timestamp = datetime.strptime(row['Timestamp'], "%m/%d/%y %I:%M:%S %p")
+        try: # first try strptime with TZ, then without
+            new_timestamp = datetime.strptime(row['Timestamp'], "%m/%d/%y %I:%M:%S %p %Z")
+        except ValueError:
+            new_timestamp = datetime.strptime(row['Timestamp'], "%m/%d/%y %I:%M:%S %p")
         if new_timestamp.tzinfo == None:
             new_timestamp = pytz.timezone('America/Los_Angeles').localize(new_timestamp)
             # print(new_timestamp.isoformat())

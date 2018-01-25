@@ -31,3 +31,7 @@ Exception time data '10/5/12 14:31:11 PM' does not match format '%m/%d/%y %I:%M:
 
 The output subdirectory is in gitignore so you can keep dumping files into it and then truncating it to test.
 
+## Notes
+
+- I added an optional timezone to the Timestamp, so the values EST and UTC work fine at the end eg '10/5/12 12:31:11 UTC'. But I didn't test a range of TZ formats so beyond 3 letter codes, I'm not sure what will be accepted.
+
