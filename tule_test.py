@@ -46,45 +46,49 @@ import time
 # reader = csv.DictReader(sys.stdin.replace(bytes([0xff]), '\uFFFD'))
 # reader = csv.DictReader(sys.stdin.buffer.readlines().decode('utf-8', 'replace'))
 
+
 def get_fractional_sec(time_str):
     time_str, float_ = time_str.split('.')
     h, m, s = time_str.split(':')
     return float(int(h) * 3600 + int(m) * 60 + int(s)) + float("0." + float_)
 
-raw_input = sys.stdin.buffer.readlines()
-for idx, line in enumerate(raw_input):
-    raw_input[idx] = line.decode('utf-8', 'replace')
 
-# print(raw_input)
+if __name__ == "__main__":
 
-reader = csv.DictReader(raw_input)
+    raw_input = sys.stdin.buffer.readlines()
+    for idx, line in enumerate(raw_input):
+        raw_input[idx] = line.decode('utf-8', 'replace')
 
-# collected_output = []
+    # print(raw_input)
 
-for idx, row in enumerate(reader):
-    if idx == 0:
-        writer = csv.DictWriter(sys.stdout, row.keys())
-        writer.writeheader()
-    try:
-        try: # first try strptime with TZ, then without
-            new_timestamp = datetime.strptime(row['Timestamp'], "%m/%d/%y %I:%M:%S %p %Z")
-        except ValueError:
-            new_timestamp = datetime.strptime(row['Timestamp'], "%m/%d/%y %I:%M:%S %p")
-        if new_timestamp.tzinfo == None:
-            new_timestamp = pytz.timezone('America/Los_Angeles').localize(new_timestamp)
-            # print(new_timestamp.isoformat())
-        new_timestamp = new_timestamp.astimezone(tz=pytz.timezone('America/New_York'))
-        row['Timestamp'] = new_timestamp.isoformat()
-        row['ZIP'] = row['ZIP'].zfill(5)
-        row['FullName'] = row['FullName'].upper()
-        new_foo_duration = get_fractional_sec(row['FooDuration'])
-        row['FooDuration'] = new_foo_duration
-        new_bar_duration = get_fractional_sec(row['BarDuration'])
-        row['BarDuration'] = new_bar_duration
-        new_total_duration = new_foo_duration + new_bar_duration
-        row['TotalDuration'] = new_total_duration
-        # collected_output.append(row)
-        writer.writerow(row)
-    except BaseException as err:
-        print("Exception in row {}, row skipped: {}".format(idx + 1, err), file=sys.stderr) # skip a row in which we found an exception
-        continue
+    reader = csv.DictReader(raw_input)
+
+    # collected_output = []
+
+    for idx, row in enumerate(reader):
+        if idx == 0:
+            writer = csv.DictWriter(sys.stdout, row.keys())
+            writer.writeheader()
+        try:
+            try: # first try strptime with TZ, then without
+                new_timestamp = datetime.strptime(row['Timestamp'], "%m/%d/%y %I:%M:%S %p %Z")
+            except ValueError:
+                new_timestamp = datetime.strptime(row['Timestamp'], "%m/%d/%y %I:%M:%S %p")
+            if new_timestamp.tzinfo == None:
+                new_timestamp = pytz.timezone('America/Los_Angeles').localize(new_timestamp)
+                # print(new_timestamp.isoformat())
+            new_timestamp = new_timestamp.astimezone(tz=pytz.timezone('America/New_York'))
+            row['Timestamp'] = new_timestamp.isoformat()
+            row['ZIP'] = row['ZIP'].zfill(5)
+            row['FullName'] = row['FullName'].upper()
+            new_foo_duration = get_fractional_sec(row['FooDuration'])
+            row['FooDuration'] = new_foo_duration
+            new_bar_duration = get_fractional_sec(row['BarDuration'])
+            row['BarDuration'] = new_bar_duration
+            new_total_duration = new_foo_duration + new_bar_duration
+            row['TotalDuration'] = new_total_duration
+            # collected_output.append(row)
+            writer.writerow(row)
+        except BaseException as err:
+            print("Exception in row {}, row skipped: {}".format(idx + 1, err), file=sys.stderr) # skip a row in which we found an exception
+            continue
