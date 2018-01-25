@@ -59,9 +59,7 @@ for idx, line in enumerate(raw_input):
 
 reader = csv.DictReader(raw_input)
 
-
-collected_output = []
-
+# collected_output = []
 
 for idx, row in enumerate(reader):
     if idx == 0:
@@ -82,8 +80,8 @@ for idx, row in enumerate(reader):
         row['BarDuration'] = new_bar_duration
         new_total_duration = new_foo_duration + new_bar_duration
         row['TotalDuration'] = new_total_duration
-        collected_output.append(row)
+        # collected_output.append(row)
         writer.writerow(row)
-    except BaseException:
-        print(BaseException, file=sys.stderr) # skip a row in which we found an exception
+    except BaseException as err:
+        print("Exception {}".format(err), file=sys.stderr) # skip a row in which we found an exception
         continue
