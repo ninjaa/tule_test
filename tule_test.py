@@ -83,5 +83,5 @@ for idx, row in enumerate(reader):
         # collected_output.append(row)
         writer.writerow(row)
     except BaseException as err:
-        print("Exception {}".format(err), file=sys.stderr) # skip a row in which we found an exception
+        print("Exception in row {}, row skipped: {}".format(idx + 1, err), file=sys.stderr) # skip a row in which we found an exception
         continue
