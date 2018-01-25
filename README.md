@@ -22,7 +22,7 @@ $> cat sample.csv | python3.6 tule_test.py > output/output.csv
 $> cat sample-with-broken-utf8.csv | python3.6 tule_test.py > output/output-with-broken-utf8-input.csv
 ```
 
-And to trigger an exception
+And to trigger an exception, I created a sample file with a broken timestamp (14 is not a valid PM hour value):
 
 ```
 $> cat sample-with-broken-timestamp.csv | python3.6 tule_test.py > output/output-with-broken-timestamp-input.csv
