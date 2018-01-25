@@ -35,12 +35,13 @@
 # warning to `stderr` and drop the row from your output.
 
 
-import codecs
+# import codecs
 import csv
 from datetime import datetime
-import pytz
 import sys
-import time
+# import time
+import pytz
+
 
 # UTF8reader = codecs.getreader('utf-8')
 # reader = csv.DictReader(sys.stdin.replace(bytes([0xff]), '\uFFFD'))
